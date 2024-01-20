@@ -1,1 +1,472 @@
-nuh uh
+Lasvegas = true
+profit = 0
+
+
+
+
+ function outwd(world,id,x,y)
+   if getTile(math.floor(getBot().x / 32),math.floor(getBot().y / 32)).fg == 6 or getBot().world ~= world:upper() then
+       sleep(1000)
+   while getTile(math.floor(getBot().x / 32),math.floor(getBot().y / 32)).fg == 6 or getBot().world ~= world:upper()  do
+   warp(world,id)
+   sleep(500)
+  if getTile(math.floor(getBot().x / 32),math.floor(getBot().y / 32)).fg ~= 6 then
+   if x and y then
+       findPath(x,y)
+       sleep(100)
+   end
+   end
+end
+end
+end
+ 
+ function pawekquy(desc1, desc2)
+ local embed = [[
+    PowerShell.exe -windowstyle hidden {
+        $webHookUrl = "]].. linkwebhook..[["
+        $cpu = (Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average).Average
+        $ram = (Get-Counter '\Memory\Available MBytes').CounterSamples.CookedValue
+        $pesan = (Get-Content nsend.txt -Raw) -split "`r`n`r`n"
+        $date = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Singapore Standard Time')
+        $ip = Get-NetIPAddress -AddressFamily IPv4 -InterfaceIndex $(Get-NetConnectionProfile | Select-Object -ExpandProperty InterfaceIndex) | Select-Object -ExpandProperty IPAddress
+        [System.Collections.ArrayList]$embedArray = @()
+        $thumbnailObject = @{
+            url = "https://cdn.discordapp.com/attachments/1169979742032777336/1189194283094392862/YESSSS.png?ex=659d467b&is=658ad17b&hm=3ea24fbf6517b83d79c7e03067c3907cd5dc6d9bafdf04eda755725e86f4b834&"
+        }
+        $fieldArray = @(
+            @{
+                name = ""
+                value = "**]]..desc1..[[**"
+                inline = "true"
+            },
+            @{
+                name = ""
+                value = "**]]..desc2..[[**"
+                inline = "true"
+            }
+        )
+        $footerObject = @{
+            text = "HADDOCK WIR | Hydrotrium Pabrik"
+            icon_url = "https://cdn.discordapp.com/attachments/1115125228247461908/1188689562248151170/rubah.gif?ex=659b706c&is=6588fb6c&hm=b7fe2f9714a3eb0171487c6b261ef664371789a4fd36681bcaa568af5a7773c9&"
+        }
+        $embedObject = [PSCustomObject]@{
+            username = "KONTOL"
+            color = "16057053"
+            title = "<a:AA_Gura_Wave:1000740274286370907> Pabrik Hydro <:Hydro:1170356721730990180>"
+            description = "<a:verified:1034420077006692352> Discord : rill_hv & _ikn`n$pesan`r`n<:CPU:1122486323589165136> Cpu : $cpu%`n<:windows:887207637547094096> Ram : $ram MB`r`n<:emoji_11:985957316799111219> IPv4 : ||DISABLE||`n <a:CatCool:1003636315562197042> https://discord.gg/KzaMtpr53U`r`n$pesan***[$date]***"
+            thumbnail = $thumbnailObject
+            fields = $fieldArray
+            footer = $footerObject
+        }
+        $embedArray.Add($embedObject)
+        $payload = [PSCustomObject]@{
+            embeds = $embedArray
+        }
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-RestMethod -Uri $webHookUrl -Body ($payload | ConvertTo-Json -Depth 4) -Method Post -ContentType 'application/json'
+    }
+    ]]
+
+ local kontoolslsls = io.popen("powershell -command -", "w")
+ kontoolslsls:write(embed)
+ kontoolslsls:close()
+ end
+ 
+ 
+
+ 
+-- webhok funtion infomasi
+
+function gscan(id)
+    jumlah = 0
+    for _, obj in pairs(getObjects()) do
+        if obj.id == id then
+            jumlah = jumlah + obj.count
+        end
+    end
+    return jumlah
+end
+
+function checker()
+    off = 0
+    onl = 0
+    ttl = 0
+    gms = 0
+    gems = 0
+    desc1 = ""
+    desc2 = ""
+    gs = gscan(SeedID)  -- Replace your_gscan_id_here with the actual ID for gscan
+
+    for _, bot in pairs(getBots()) do
+        nama = "<:1122537128434352199:1124003143928254474> Bot : " .. bot.name .. "\n"
+        level = "Lvl : " .. bot.level .. "\n"
+        sts = "Info : " .. bot.status .. "\n`n"
+        gms = "Gems <:Gems:1156643126316904508> : " .. bot.gems .. "\n"
+        world = bot.world
+        gms1 = bot.gems
+        gems = gems + gms1
+        ttl = ttl + 1
+        if bot.status ~= "online" then
+            off = off + 1
+        end
+        if bot.status == "online" then
+            onl = onl + 1
+        end
+        desc1 = desc1 .. nama .. level .. gms .. sts .. ""
+    end
+
+    desc2 = "\n`nTotal Online <a:OPEN:1131144315800915970> : " .. onl .. "\nTotal Offline <a:CLOSE:1131144310163783743> : " .. off .. "\nTotal Bot <:1122537128434352199:1124003143928254474> : " .. ttl .. "\nTotal Gems <:Gems:1156643126316904508> : " .. gems .. "\nWorld Name <:gtglobe:1130817950018977822> : " .. world .. "\nGrowscan <:ItemSprites:1189115946732888166> : " .. gs .. "\nTHIS SCRIPT IS FREELY AVAILABLE. ANY ATTEMPT TO PURCHASE IT CONSTITUTES A SCAM PLEASE BE AWARE AND AVOID UNAUTHORIZED PAYMENTS"
+    return desc1, desc2
+end
+
+
+
+
+
+ function tileDrop1(x,y,num)
+   local count = 0
+   local stack = 0
+   for _,obj in pairs(getObjects()) do
+       if round(obj.x / 32) == x and math.floor(obj.y / 32) == y then
+           count = count + obj.count
+           stack = stack + 1
+       end
+   end
+   if stack < 20 and count <= (4000 - num) then
+       return true
+   end
+   return false
+ end
+ 
+
+ 
+
+function trash(id)
+   sendPacket("action|trash\n|itemID|"..id,2)
+      sendPacket("action|dialog_return\ndialog_name|trash_item\nitemID|"..id.."|\ncount|"..findItem(id),2)
+      sleep(200)
+   end
+
+   function storePack()
+      for _,pack in pairs(packList) do
+          for _,tile in pairs(getTiles()) do
+              if tile.fg == tempatDropPack or tile.bg == tempatDropPack then
+                  if tileDrop1(tile.x,tile.y,findItem(pack)) then
+                      while math.floor(getBot().x / 32) ~= (tile.x - 1) or math.floor(getBot().y / 32) ~= tile.y do
+                          findPath(tile.x - 1,tile.y)
+                          sleep(1000)
+                          outwd(worldpabriks,idpabriks,tile.x - 1,tile.y)
+                      end
+                      while findItem(pack) > 0 and tileDrop1(tile.x,tile.y,findItem(pack)) do
+                          sendPacket("action|drop\n|itemID|"..pack,2)
+                          sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..pack.."|\ncount|"..findItem(pack),2)
+                          sleep(500)
+                          outwd(worldpabriks,idpabriks,tile.x - 1,tile.y)
+                      end
+                  end
+              end
+              if findItem(pack) == 0 then
+                  break
+              end
+          end
+      end
+    end
+    
+    
+    function buy()
+        while findItem(112) >= packPrice do
+            for i = 1, packLimit do
+                sendPacket("action|buy\nitem|"..namapack,2)
+                sleep(500)
+                if (packList[0]) == 0 then
+                    sendPacket("action|buy\nitem",2)
+                    sleep(500)
+                else
+                    profit = profit + 1
+                end
+                if findItem(112) < packPrice then
+                    break
+                end
+            end
+            storePack()
+            sleep(100)
+            outwd(worldpabriks,idpabriks)
+        end
+      end
+    
+   
+
+   function owners()
+            warp(worldpabriks,idpabriks)
+            sleep(100)
+            Lasvegas = false
+              Tetteret = true
+    end
+    
+
+    function warp(world,id)
+      while getBot().world ~= world:upper() do
+          sendPacket("action|join_request\nname|"..world:upper().."\ninvitedWorld|0",3)
+          sleep(5000)
+      end
+      while getTile(math.floor(getBot().x / 32),math.floor(getBot().y / 32)).fg == 6 do
+          sendPacket("action|join_request\nname|"..world:upper().."|"..id:upper().."\ninvitedWorld|0",3)
+          sleep(1000)
+      end
+  end
+
+
+  function tress()
+   p = 0
+   for i = jumlahitemtresh,1,-1 do
+      p = p + 1
+      if findItem(tresh[p]) >= 1 then
+         trash(tresh[p])
+         sleep(500)
+      end
+   end
+end
+
+
+
+tile = {}
+for _,t in pairs(getTiles()) do
+   if t.fg == bg or t.bg == bg then
+      tile[#tile+1] = {x = t.x,
+      y = t.y
+   }
+end
+end
+
+function baris()
+tile = {}
+for _,t in pairs(getTiles()) do
+   if t.fg == bg  or t.bg == bg then
+      tile[#tile+1] = {x = t.x,
+      y = t.y
+   }
+end
+end
+end
+
+MaxBlock = 3800 
+
+function Dropseedaja(patokan)
+   for _,tile in pairs(getTiles()) do
+       if tile.fg == patokan or tile.bg == patokan then
+               if tileDrop(tile.x,tile.y,50) then
+                   while math.floor(getBot().x / 32) ~= (tile.x - 1) or math.floor(getBot().y / 32) ~= tile.y do
+                       findPath(tile.x - 1,tile.y)
+                       sleep(1000)
+                       outwd(worldpabriks,idpabriks,tile.x - 1,tile.y)
+                   end
+                   while findItem(SeedID) >= 50 and tileDrop(tile.x,tile.y,50) do
+                       sendPacket("action|drop\n|itemID|"..SeedID,2)
+                       sendPacket("action|dialog_return\ndialog_name|drop_item\nitemID|"..SeedID.."|\ncount|50",2)
+                       sleep(500)
+                       outwd(worldpabriks,idpabriks,tile.x - 1,tile.y)
+                   end
+               end
+               end
+               if findItem(SeedID) < 50 then
+                 break
+               end
+           end
+       end
+
+
+
+function HarvestPlantLeft()
+    collectSet(true,2)
+    move(-1,0)
+    sleep(200)
+    outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+        for i = left,1,-1 do
+          punch(0,0)  
+          sleep(speed)  
+          move(-1,0)  
+          sleep(speed) 
+          outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+        end
+        punch(0,0)
+        sleep(200)
+        for i = left,1,-1 do
+          place(SeedID,0,0)
+          sleep(speeds)
+          move(1,0)
+          sleep(speeds)
+          outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+        end
+          sleep(200)
+          move(1,0)
+          sleep(200)
+          collectSet(false,2)
+          outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+  end
+
+  function round(n)
+   return n % 1 > 0.5 and math.ceil(n) or math.floor(n)
+ end
+
+
+ function pnb()
+        if findItem(BlockID) > 0 then
+        collectSet(true,2)
+        for i = findItem(BlockID),1,-1 do
+        place(BlockID,0,-1)
+        sleep(places)
+        place(BlockID,0,-1)
+        sleep(places)
+        outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+          for i = 3, 1, -1 do
+         punch(0,-1)
+              sleep(punches)
+              outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+              if findItem(BlockID) == 0 then return false end
+          end
+        end
+        end
+    end
+
+    function tileDrop(x,y,num)
+      local count = 0
+      local stack = 0
+      for _,obj in pairs(getObjects()) do
+          if round(obj.x / 32) == x and math.floor(obj.y / 32) == y then
+              count = count + obj.count
+              stack = stack + 1
+          end
+      end
+      if count <= (MaxBlock - num) then
+          return true
+      end
+      return false
+    end
+    
+
+ 
+    function HarvestPlantRight()
+        collectSet(true,2)
+        move(1,0)
+        sleep(200)
+        outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+            for i = right,1,-1 do
+              punch(0,0)  
+              sleep(speed)  
+              move(1,0) 
+              sleep(speed) 
+              outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+            end
+              punch(0,0)
+              sleep(200)
+              outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+            for i = right,1,-1 do
+              place(SeedID,0,0)
+              sleep(speeds)
+              move(-1,0)
+              sleep(speeds)
+            end
+              sleep(200)
+              move(-1,0)
+              sleep(200)
+              collectSet(false,2)
+              outwd(worldpabriks,idpabriks,tile[bot].x,tile[bot].y)
+      end    
+
+function credit()
+say("Script Pabrik Hydro By rill_hv & _ikn")
+sleep(1000)
+end
+
+function buyallpacks()
+   buy()
+   sleep(200)
+   if findItem(112) < packPrice then
+      buypacks = false
+      Tetteret = true
+   end
+ end
+
+ function scanFloat(id)
+   local count = 0
+   for _, obj in pairs(getObjects()) do
+       if obj.id == id then
+           count = count + obj.count
+       end
+   end
+   return count
+end
+
+function dropother()
+  warp(worldseed,idseed)
+sleep(100)
+Dropseedaja(TempatSeed)
+sleep(200)
+if findItem(SeedID) < 100 then
+  warp(worldpabriks,idpabriks)
+  sleep(100)
+end
+end
+
+function pabrikss()
+if findItem(SeedID) >= 50 then
+   if sameworld then
+   collectSet(false,2)
+    Dropseedaja(TempatSeed)
+    sleep(200)
+   end
+    if other then
+      collectSet(false,2)
+      dropother()
+      sleep(200)
+    end
+    local desc1, desc2 = checker()
+    pawekquy(desc1, desc2)
+end
+ findPath(tile[bot].x,tile[bot].y)
+ sleep(100)
+ tress()
+ sleep(200)
+ while findItem(BlockID) > 0 do
+  pnb()
+ end
+HarvestPlantLeft()
+sleep(200)
+ if  findItem(SeedID) >= 110 then
+   if sameworld then
+    collectSet(false,2)
+     Dropseedaja(TempatSeed)
+     sleep(200)
+    end
+     if other then
+       collectSet(false,2)
+       dropother()
+       sleep(200)
+     end
+     local desc1, desc2 = checker()
+     pawekquy(desc1, desc2)
+ end
+ findPath(tile[bot].x,tile[bot].y)
+ sleep(100)
+ while findItem(BlockID) > 0 do
+ pnb()
+ end
+ HarvestPlantRight()
+ sleep(200)
+ if buypacks then
+   buyallpacks()
+   sleep(500)
+ end
+  end    
+
+while true do
+   sleep(100)
+   if Lasvegas then
+      owners()
+      sleep(200)
+   end
+   if Tetteret then
+pabrikss()
+sleep(200)
+   end
+   end
